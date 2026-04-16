@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0"
+      prefWidth="640.0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.langtonsant.HelloController"
+>
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+
+                <Menu text="Simulation Controls">
+                    <items>
+                        <MenuItem text="Start Simulation" fx:id="startSim"/>
+                        <MenuItem text="Pause Simulation" fx:id="pauseSim"/>
+                        <MenuItem text="Resume Simulation" fx:id="resumeSim"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Reset Simulation" fx:id="resetSim"/>
+                    </items>
+                </Menu>
+
+                <Menu text="Grid Controls">
+                    <items>
+                        <MenuItem text="Small Grid (100x100)" fx:id="gridSmall"/>
+                        <MenuItem text="Medium Grid (1000x1000)" fx:id="gridMedium"/>
+                        <MenuItem text="Large Grid (10000x10000)" fx:id="gridLarge"/>
+                    </items>
+                </Menu>
+
+
+                <Menu text="Ant Controls">
+                    <items>
+                        <MenuItem text="Place Ant in Center" fx:id="antCenter"/>
+                        <MenuItem text="Random Ant Position" fx:id="antRandom"/>
+                        <SeparatorMenuItem/>
+                    </items>
+                </Menu>
+                <Menu text="Speed">
+                    <items>
+                        <MenuItem text="Slow(1x)" fx:id="speedSlow"/>
+                        <MenuItem text="Normal(2x)" fx:id="speedNormal"/>
+                        <MenuItem text="Fast(1)" fx:id="speedFast"/>
+                        <MenuItem text="Very Fast" fx:id="speedVeryFast"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane fx:id="simulationContainer" VBox.vgrow="ALWAYS">
+
+        </AnchorPane>
+    </children>
+</VBox>

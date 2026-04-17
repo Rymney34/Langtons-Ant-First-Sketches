@@ -14,11 +14,11 @@
 
                 <Menu text="Simulation Controls">
                     <items>
-                        <MenuItem text="Start Simulation" fx:id="startSim"/>
-                        <MenuItem text="Pause Simulation" fx:id="pauseSim"/>
-                        <MenuItem text="Resume Simulation" fx:id="resumeSim"/>
+                        <MenuItem text="Start Simulation" onAction="#startSim"/>
+                        <MenuItem text="Pause Simulation" onAction="#pauseSim"/>
+                        <MenuItem text="Resume Simulation" onAction="#resumeSim"/>
                         <SeparatorMenuItem/>
-                        <MenuItem text="Reset Simulation" fx:id="resetSim"/>
+                        <MenuItem text="Reset Simulation" onAction="#resetSim"/>
                     </items>
                 </Menu>
 
@@ -33,23 +33,33 @@
 
                 <Menu text="Ant Controls">
                     <items>
-                        <MenuItem text="Place Ant in Center" fx:id="antCenter"/>
+                        <MenuItem text="Add Ant + choose position" fx:id="antCenter"/>
                         <MenuItem text="Random Ant Position" fx:id="antRandom"/>
                         <SeparatorMenuItem/>
                     </items>
                 </Menu>
                 <Menu text="Speed">
                     <items>
-                        <MenuItem text="Slow(1x)" fx:id="speedSlow"/>
-                        <MenuItem text="Normal(2x)" fx:id="speedNormal"/>
-                        <MenuItem text="Fast(1)" fx:id="speedFast"/>
-                        <MenuItem text="Very Fast" fx:id="speedVeryFast"/>
+                        <MenuItem text="Slow(1x)" onAction="#speedSlow"/>
+                        <MenuItem text="Normal(2x)" onAction="#speedNormal"/>
+                        <MenuItem text="Fast(1)" onAction="#speedFast"/>
+                        <MenuItem text="Very Fast" onAction="#speedVeryFast"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane fx:id="simulationContainer" VBox.vgrow="ALWAYS">
+        <VBox>
+            <HBox spacing="15">
+                <Label text="X"/>
+                <TextField fx:id="xField" prefWidth="50"/>
+                <Label text="Y:"/>
+                <TextField fx:id="yField" prefWidth="50"/>
+                <ChoiceBox fx:id="directionChoice" prefWidth="100"/>
+                <Button text="Add Ant" onAction="#addAnt"/>
+            </HBox>
+            <AnchorPane fx:id="simulationContainer" VBox.vgrow="ALWAYS"/>
 
-        </AnchorPane>
+        </VBox>
+
     </children>
 </VBox>

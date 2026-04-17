@@ -1,13 +1,17 @@
 package com.example.langtonsant;
 
+import javafx.scene.paint.Color;
+
 public class Ant {
     public int x, y;
     public Direction direction;
+    public Color color;
 
     public Ant(int x, int y, Direction direction){
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.color = Color.web("#0ABAB5");
     }
 
     public void move(Grid grid){

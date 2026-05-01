@@ -1,6 +1,5 @@
 package com.example.langtonsant;
 
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -23,6 +22,7 @@ public class HelloController {
     AnimationTimer timer;
     private SimulationView simulationView;
     private Grid grid;
+    private sequentialGrid grid2;
     private Ant ant;
     private List<Ant> ants = new ArrayList<>();
 //call thread on each initialize
@@ -30,7 +30,8 @@ public class HelloController {
         int width = 100;
         int heigh = 100;
         System.out.println("Gazoz");
-        grid = new Grid(width, heigh);
+        grid = new sequentialGrid(width, heigh);
+
 //        ant = new Ant(width / 2, heigh / 2, Direction.NORTH);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         ants.add(new Ant(25, 35, Direction.SOUTH));
@@ -79,14 +80,13 @@ public class HelloController {
         };
 //        timer.start();
 
-
     }
 
     protected void resetSimulation() {
         int width = 100;
         int heigh = 100;
         ants.clear();
-        grid = new Grid(width, heigh);
+        grid = new sequentialGrid(width, heigh);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         simulationView = new SimulationView(width, heigh,ants);
 

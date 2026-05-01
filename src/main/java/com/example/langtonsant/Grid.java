@@ -33,6 +33,8 @@ public interface Grid {
 
     void flipCell(int x, int y);
 
+    boolean getAndFlip(int x, int y);
+
     int getWidth();
 
     int getHeight();

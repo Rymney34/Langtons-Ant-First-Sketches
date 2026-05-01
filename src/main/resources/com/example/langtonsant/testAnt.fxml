@@ -46,7 +46,12 @@
                         <MenuItem text="Very Fast" onAction="#speedVeryFast"/>
                     </items>
                 </Menu>
+                <Menu text="Mode">
+                    <MenuItem text="Sequential Mode" onAction="#useSequentialMode" />
+                    <MenuItem text="Parallel Mode" onAction="#useParallelMode" />
+                </Menu>
             </menus>
+
         </MenuBar>
         <VBox>
             <HBox spacing="15">

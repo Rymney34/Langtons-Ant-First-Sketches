@@ -1,4 +1,5 @@
 package com.example.langtonsant;
+import java.util.concurrent.ForkJoinPool;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -25,22 +26,23 @@ public class HelloController {
     private sequentialGrid grid2;
     private Ant ant;
     private List<Ant> ants = new ArrayList<>();
+    private ForkJoinPool forkJoinPool = new ForkJoinPool();
+    private boolean parallelMode = false;
 //call thread on each initialize
     public void initialize(){
         int width = 100;
         int heigh = 100;
-        System.out.println("Gazoz");
-        grid = new sequentialGrid(width, heigh);
 
+//        grid = new sequentialGrid(width, heigh);
+        grid = new sequentialGrid(width, heigh);
+        parallelMode = false;
 //        ant = new Ant(width / 2, heigh / 2, Direction.NORTH);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         ants.add(new Ant(25, 35, Direction.SOUTH));
         ants.add(new Ant(width / 3, heigh / 3, Direction.SOUTH));
         simulationView = new SimulationView(width, heigh, ants);
 
-
         simulationContainer.getChildren().add(simulationView);
-
 
         directionChoice.getItems().addAll(
                 Direction.NORTH,
@@ -52,27 +54,61 @@ public class HelloController {
 
         startSimulation();
     }
+    private void moveAntSequential(){
+        for (Ant ant : ants) {
+            int oldX = ant.x;
+            int oldY = ant.y;
+
+            ant.move(grid);
+
+            simulationView.updateCell(oldX, oldY, grid.isBlack(oldX, oldY));
+        }
+    }
+
+    private void moveAntsParllel(){
+        int[] oldX = new int[ants.size()];
+        int[] oldY = new int[ants.size()];
+
+        for (int i = 0; i < ants.size(); i++) {
+            oldX[i] = ants.get(i).x;
+            oldY[i] = ants.get(i).y;
+        }
+
+        forkJoinPool.invoke(new AntChunkMoveTask(ants, grid, 0, ants.size()));
+
+        for (int i = 0; i < ants.size(); i++) {
+            simulationView.updateCell(oldX[i], oldY[i], grid.isBlack(oldX[i], oldY[i]));
+        }    }
 
     private void startSimulation() {
        timer = new AnimationTimer(){
             private long lastUpdate = 0;
 
-
             @Override
             public void handle(long l) {
 
+//                if(l - lastUpdate >= SLEEP_TIME){
+//                    for(Ant ant : ants){
+//                        int oldX = ant.x;
+//                        int oldY = ant.y;
+//
+//                        ant.move(grid);
+//                        simulationView.updateCell(oldX,oldY, grid.isBlack(oldX,oldY));
+//
+//                    }
+//                    simulationView.render();
+//
+//
+//                    lastUpdate = l;
+//                }
                 if(l - lastUpdate >= SLEEP_TIME){
-                    for(Ant ant : ants){
-                        int oldX = ant.x;
-                        int oldY = ant.y;
 
-                        ant.move(grid);
-                        simulationView.updateCell(oldX,oldY, grid.isBlack(oldX,oldY));
-
+                    if(parallelMode){
+                        moveAntsParllel();
+                    }else{
+                        moveAntSequential();
                     }
                     simulationView.render();
-
-
                     lastUpdate = l;
                 }
             }
@@ -86,10 +122,19 @@ public class HelloController {
         int width = 100;
         int heigh = 100;
         ants.clear();
-        grid = new sequentialGrid(width, heigh);
+//        grid = new sequentialGrid(width, heigh);
+        if(parallelMode){
+            grid = new parallelGrid(width, heigh);
+
+        }else{
+            grid = new sequentialGrid(width, heigh);
+        }
+
+//        grid = new parallelGrid(width,heigh);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         simulationView = new SimulationView(width, heigh,ants);
 
+        simulationContainer.getChildren().clear();
         simulationContainer.getChildren().add(simulationView);
 
         startSimulation();
@@ -166,6 +211,35 @@ public class HelloController {
        }catch (NumberFormatException e){
            System.out.println("Invalid input");
        }
+    }
+    @FXML
+    protected void useSequentialMode() {
+        timer.stop();
+
+        int width = grid.getWidth();
+        int height = grid.getHeight();
+
+        grid = new sequentialGrid(width, height);
+        parallelMode = false;
+
+        System.out.println("Sequential mode enabled");
+
+        timer.start();
+    }
+
+    @FXML
+    protected void useParallelMode() {
+        timer.stop();
+
+        int width = grid.getWidth();
+        int height = grid.getHeight();
+
+        grid = new parallelGrid(width, height);
+        parallelMode = true;
+
+        System.out.println("Parallel mode enabled");
+
+        timer.start();
     }
 
 

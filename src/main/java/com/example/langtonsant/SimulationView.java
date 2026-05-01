@@ -31,8 +31,14 @@ public class SimulationView extends StackPane {
 
 
         graphicalContext.setFill(Color.web("#0ABAB5"));
-        for(Ant ant : ants){
-            graphicalContext.fillOval(ant.x * cellSize, ant.y * cellSize, cellSize, cellSize);
+        for (Ant ant : ants) {
+            graphicalContext.setFill(ant.color);
+            graphicalContext.fillOval(
+                    ant.x * cellSize,
+                    ant.y * cellSize,
+                    cellSize,
+                    cellSize
+            );
         }
     }
 

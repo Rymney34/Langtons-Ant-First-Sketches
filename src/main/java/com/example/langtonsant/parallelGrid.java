@@ -36,6 +36,23 @@ public class parallelGrid implements Grid{
     }
 
     @Override
+    public boolean getAndFlip(int x, int y){
+        Cell cell = new Cell(x,y);
+        final boolean [] wasBlack = new boolean[1];
+
+        blackCells.compute(cell, (key, value) ->{
+            wasBlack[0] = value != null;
+
+            if(value == null) {
+                return true;
+            }else {
+                return null;
+            }
+        });
+        return wasBlack[0];
+    }
+
+    @Override
     public int getWidth(){
         return width;
     }

@@ -26,6 +26,20 @@ public class sequentialGrid implements Grid{
     }
 
     @Override
+    public boolean getAndFlip(int x, int y){
+        Cell cell = new Cell(x,y);
+        boolean wasBlack = blackCells.contains(cell);
+
+        if(wasBlack){
+            blackCells.remove(cell);
+        }
+        else{
+            blackCells.add(cell);
+        }
+        return wasBlack;
+    }
+
+    @Override
     public int getWidth(){
         return width;
     }

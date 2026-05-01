@@ -14,17 +14,39 @@ public class Ant {
         this.color = Color.web("#0ABAB5");
     }
 
+//    public void move(Grid grid){
+//        if(grid.isBlack(x,y)){
+//            System.out.println("Left");
+//            direction = direction.turnLeft();
+//
+//        }else {
+//            System.out.println("right");
+//            direction = direction.turnRight();
+//
+//        }
+//        grid.flipCell(x,y);
+//
+//        x += direction.dx;
+//        y += direction.dy;
+//
+//        x = (x + grid.getWidth()) % grid.getWidth();
+//        y = (y + grid.getHeight()) % grid.getHeight();
+//    }
     public void move(Grid grid){
-        if(grid.isBlack(x,y)){
-            System.out.println("Left");
-            direction = direction.turnLeft();
+        boolean wasBlack = grid.getAndFlip(x,y);
 
-        }else {
+
+        if(wasBlack){
+
             System.out.println("right");
             direction = direction.turnRight();
 
+        }else {
+            System.out.println("Left");
+            direction = direction.turnLeft();
+
         }
-        grid.flipCell(x,y);
+
 
         x += direction.dx;
         y += direction.dy;
@@ -32,4 +54,5 @@ public class Ant {
         x = (x + grid.getWidth()) % grid.getWidth();
         y = (y + grid.getHeight()) % grid.getHeight();
     }
+
 }

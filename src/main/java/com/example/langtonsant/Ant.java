@@ -38,11 +38,11 @@ public class Ant {
 
         if(wasBlack){
 
-            System.out.println("right");
+//            System.out.println("right");
             direction = direction.turnRight();
 
         }else {
-            System.out.println("Left");
+//            System.out.println("Left");
             direction = direction.turnLeft();
 
         }

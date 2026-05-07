@@ -1,10 +1,13 @@
 package com.example.langtonsant;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.concurrent.ForkJoinPool;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -16,7 +19,9 @@ import java.util.List;
 public class HelloController {
     @FXML
     private Label welcomeText;
-
+    @FXML private ToggleGroup modeGroup;
+    @FXML private RadioMenuItem seqId;
+    @FXML private RadioMenuItem parallelId;
     @FXML
     private AnchorPane simulationContainer;
     public long SLEEP_TIME = 100;
@@ -32,6 +37,9 @@ public class HelloController {
     public void initialize(){
         int width = 100;
         int heigh = 100;
+        seqId.setSelected(true);
+        double winWidth = 700.0;
+        double winHeight = 500.0;
 
 //        grid = new sequentialGrid(width, heigh);
         grid = new sequentialGrid(width, heigh);
@@ -40,9 +48,15 @@ public class HelloController {
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         ants.add(new Ant(25, 35, Direction.SOUTH));
         ants.add(new Ant(width / 3, heigh / 3, Direction.SOUTH));
-        simulationView = new SimulationView(width, heigh, ants);
+        updateAntCountUI();
+        simulationView = new SimulationView(width, heigh, winWidth, winHeight, ants);
 
         simulationContainer.getChildren().add(simulationView);
+
+        AnchorPane.setTopAnchor(simulationView, 10.0);
+        AnchorPane.setBottomAnchor(simulationView, 0.0);
+        AnchorPane.setLeftAnchor(simulationView, 0.0);
+        AnchorPane.setRightAnchor(simulationView, 0.0);
 
         directionChoice.getItems().addAll(
                 Direction.NORTH,
@@ -60,11 +74,11 @@ public class HelloController {
             int oldY = ant.y;
 
             ant.move(grid);
-
+            System.out.println("Sequential:" + Thread.currentThread().getName());
             simulationView.updateCell(oldX, oldY, grid.isBlack(oldX, oldY));
         }
     }
-
+//----------------------------------------------------
     private void moveAntsParllel(){
         int[] oldX = new int[ants.size()];
         int[] oldY = new int[ants.size()];
@@ -78,7 +92,8 @@ public class HelloController {
 
         for (int i = 0; i < ants.size(); i++) {
             simulationView.updateCell(oldX[i], oldY[i], grid.isBlack(oldX[i], oldY[i]));
-        }    }
+        }
+    }
 
     private void startSimulation() {
        timer = new AnimationTimer(){
@@ -121,18 +136,26 @@ public class HelloController {
     protected void resetSimulation() {
         int width = 100;
         int heigh = 100;
+
+        double winWidth = 600.0;
+        double winHeight = 400.0;
+
         ants.clear();
-//        grid = new sequentialGrid(width, heigh);
         if(parallelMode){
+            System.out.println("Gazpzpzzppzzozozo");
             grid = new parallelGrid(width, heigh);
 
         }else{
             grid = new sequentialGrid(width, heigh);
         }
-
-//        grid = new parallelGrid(width,heigh);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
-        simulationView = new SimulationView(width, heigh,ants);
+        updateAntCountUI();
+        simulationView = new SimulationView(width, heigh, winWidth, winHeight, ants);
+
+        AnchorPane.setTopAnchor(simulationView, 10.0);
+        AnchorPane.setBottomAnchor(simulationView, 0.0);
+        AnchorPane.setLeftAnchor(simulationView, 0.0);
+        AnchorPane.setRightAnchor(simulationView, 0.0);
 
         simulationContainer.getChildren().clear();
         simulationContainer.getChildren().add(simulationView);
@@ -182,7 +205,7 @@ public class HelloController {
     }
     @FXML
     protected void speedVeryFast() {
-        SLEEP_TIME = 1000;
+        SLEEP_TIME = 1;
     }
 
     @FXML
@@ -193,6 +216,8 @@ public class HelloController {
 
     @FXML
     private ChoiceBox<Direction> directionChoice;
+
+
 
     @FXML
     protected void addAnt() {
@@ -212,34 +237,117 @@ public class HelloController {
            System.out.println("Invalid input");
        }
     }
+
+    private String mode = "SEQUENTIAL";
+
     @FXML
     protected void useSequentialMode() {
-        timer.stop();
 
-        int width = grid.getWidth();
-        int height = grid.getHeight();
+        mode = "SEQUENTIAL";
 
-        grid = new sequentialGrid(width, height);
-        parallelMode = false;
 
-        System.out.println("Sequential mode enabled");
 
-        timer.start();
+            timer.stop();
+            resetSimulation();
+            int width = grid.getWidth();
+            int height = grid.getHeight();
+
+            grid = new sequentialGrid(width, height);
+            parallelMode = false;
+
+            ants.clear();
+            ants.add(new Ant(width / 2, height / 2, Direction.NORTH));
+            updateAntCountUI();
+
+
+            System.out.println("Sequential mode enabled");
+
+            timer.start();
+
+
+
     }
 
     @FXML
     protected void useParallelMode() {
         timer.stop();
-
+        mode = "PARALLEL";
+        resetSimulation();
         int width = grid.getWidth();
         int height = grid.getHeight();
 
         grid = new parallelGrid(width, height);
+
         parallelMode = true;
 
-        System.out.println("Parallel mode enabled");
 
-        timer.start();
+            System.out.println("Gazoz");
+            ants.clear();
+            ants.add(new Ant(width / 2, height / 2, Direction.NORTH));
+            System.out.println("Parallel mode enabled");
+            updateAntCountUI();
+            timer.start();
+
+
+    }
+
+    @FXML
+    private javafx.scene.control.MenuItem gridSmall;
+    @FXML
+    private  javafx.scene.control.MenuItem gridMedium;
+    @FXML
+    private  javafx.scene.control.MenuItem gridLarge;
+
+    @FXML
+    public void handleGridResize (javafx.event.ActionEvent event){
+        MenuItem source = (MenuItem) event.getSource();
+
+        int newWidth, newHeight;
+
+        if(source == gridSmall){
+            newWidth = 100;
+            newHeight = 100;
+        } else if (source == gridMedium) {
+            newWidth = 1000;
+            newHeight = 1000;
+        } else{
+            newWidth = 10000;
+            newHeight = 10000;
+        }
+
+        applyNewGridSize(newWidth, newHeight);
+    }
+
+    private void applyNewGridSize(int width, int height){
+        timer.stop();
+
+        this.grid = new sequentialGrid(width, height);
+
+
+
+        ants.clear();
+        ants.add(new Ant(width / 2, height / 2, Direction.NORTH));
+        updateAntCountUI();
+        double currentWinW = simulationContainer.getWidth();
+        double currentWinH = simulationContainer.getHeight();
+
+        simulationView = new SimulationView(width, height, currentWinW, currentWinH, ants);
+        AnchorPane.setTopAnchor(simulationView, 10.0);
+        AnchorPane.setBottomAnchor(simulationView, 0.0);
+        AnchorPane.setLeftAnchor(simulationView, 0.0);
+        AnchorPane.setRightAnchor(simulationView, 0.0);
+
+        simulationContainer.getChildren().clear();
+        simulationContainer.getChildren().add(simulationView);
+    }
+
+    @FXML
+    private Label antCountLabel;
+
+    private void updateAntCountUI(){
+        if(antCountLabel != null){
+            antCountLabel.setText(String.valueOf(ants.size()));
+        }
     }
 
 

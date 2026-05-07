@@ -11,12 +11,25 @@ public class SimulationView extends StackPane {
 
     private Canvas canvas;
     private GraphicsContext graphicalContext;
-    private int cellSize = 5;
+    private double cellSize = 5;
     private List<Ant> ants;
 
-    public SimulationView(int width, int height, List<Ant> ants){
+    public SimulationView(int gridWidth, int gridHeight, double viewWidth, double viewHeight, List<Ant> ants){
         this.ants = ants;
-        canvas = new Canvas(width * cellSize, height * cellSize);
+
+        double totalWidth = gridWidth * cellSize;
+        double totalHeight = gridHeight * cellSize;
+
+
+            double scaleX = viewWidth / gridWidth;
+            double scaleY = viewHeight / gridHeight;
+
+            this.cellSize = Math.min(scaleX, scaleY);
+
+//            this.setScaleX(scale);
+//            this.setScaleY(scale);
+
+        canvas = new Canvas(gridWidth * cellSize, gridHeight * cellSize);
         graphicalContext = canvas.getGraphicsContext2D();
         getChildren().add(canvas);
         graphicalContext.setFill(Color.WHITE);
@@ -28,7 +41,6 @@ public class SimulationView extends StackPane {
     }
 
     public void render(){
-
 
         graphicalContext.setFill(Color.web("#0ABAB5"));
         for (Ant ant : ants) {

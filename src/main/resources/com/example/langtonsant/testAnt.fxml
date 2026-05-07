@@ -2,13 +2,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0"
-      prefWidth="640.0"
+<VBox
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.langtonsant.HelloController"
+      style="-fx-background-color: rgba(0,0,0,0.52);"
 >
+
+
     <children>
+
         <MenuBar VBox.vgrow="NEVER">
             <menus>
 
@@ -24,9 +27,9 @@
 
                 <Menu text="Grid Controls">
                     <items>
-                        <MenuItem text="Small Grid (100x100)" fx:id="gridSmall"/>
-                        <MenuItem text="Medium Grid (1000x1000)" fx:id="gridMedium"/>
-                        <MenuItem text="Large Grid (10000x10000)" fx:id="gridLarge"/>
+                        <MenuItem text="Small Grid (100x100)" fx:id="gridSmall" onAction="#handleGridResize"/>
+                        <MenuItem text="Medium Grid (1000x1000)" fx:id="gridMedium" onAction="#handleGridResize"/>
+                        <MenuItem text="Large Grid (10000x10000)" fx:id="gridLarge" onAction="#handleGridResize"/>
                     </items>
                 </Menu>
 
@@ -46,23 +49,40 @@
                         <MenuItem text="Very Fast" onAction="#speedVeryFast"/>
                     </items>
                 </Menu>
+                <fx:define>
+                    <ToggleGroup fx:id="modeGroup"/>
+                </fx:define>
                 <Menu text="Mode">
-                    <MenuItem text="Sequential Mode" onAction="#useSequentialMode" />
-                    <MenuItem text="Parallel Mode" onAction="#useParallelMode" />
+                    <RadioMenuItem text="Sequential Mode"
+                                   fx:id="seqId"
+                                   onAction="#useSequentialMode"
+                                   toggleGroup="$modeGroup"
+                    />
+                    <RadioMenuItem text="Parallel Mode"
+                                   fx:id="parallelId"
+                                   onAction="#useParallelMode"
+                                   toggleGroup="$modeGroup"
+                    />
                 </Menu>
+
+
             </menus>
 
         </MenuBar>
-        <VBox>
+        <VBox  VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
             <HBox spacing="15">
-                <Label text="X"/>
+                <Label text="X" style="-fx-text-fill: #000000" />
                 <TextField fx:id="xField" prefWidth="50"/>
-                <Label text="Y:"/>
+                <Label text="Y:" style="-fx-text-fill: #000000; "/>
                 <TextField fx:id="yField" prefWidth="50"/>
                 <ChoiceBox fx:id="directionChoice" prefWidth="100"/>
                 <Button text="Add Ant" onAction="#addAnt"/>
+
+                <Label text="Ants: " style="-fx-font-weight: bold;"/>
+                <Label fx:id="antCountLabel" text="0"/>
             </HBox>
-            <AnchorPane fx:id="simulationContainer" VBox.vgrow="ALWAYS"/>
+            <AnchorPane fx:id="simulationContainer"
+                        VBox.vgrow="NEVER" />
 
         </VBox>
 

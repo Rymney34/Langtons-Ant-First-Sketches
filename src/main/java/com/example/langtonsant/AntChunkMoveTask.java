@@ -6,7 +6,7 @@ import java.util.concurrent.RecursiveAction;
 
 public class AntChunkMoveTask extends RecursiveAction {
 
-    private static int LIMIT = 100;
+    private static int LIMIT = 1;
 
     private List<Ant> ants;
     private Grid grid;
@@ -22,7 +22,9 @@ public class AntChunkMoveTask extends RecursiveAction {
 
     @Override
     protected void compute(){
+//        System.out.println(Thread.currentThread().getName());
         if(end - start <= LIMIT){
+            System.out.println(Thread.currentThread().getName());
             for(int i = start; i< end; i++){
                 ants.get(i).move(grid);
             }

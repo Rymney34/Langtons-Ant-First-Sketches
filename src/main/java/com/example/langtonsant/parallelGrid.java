@@ -39,7 +39,7 @@ public class parallelGrid implements Grid{
     public boolean getAndFlip(int x, int y){
         Cell cell = new Cell(x,y);
         final boolean [] wasBlack = new boolean[1];
-
+//safe in parallel no race conditions
         blackCells.compute(cell, (key, value) ->{
             wasBlack[0] = value != null;
 

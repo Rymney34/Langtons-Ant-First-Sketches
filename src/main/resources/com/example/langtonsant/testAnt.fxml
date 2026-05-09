@@ -15,7 +15,7 @@
         <MenuBar VBox.vgrow="NEVER">
             <menus>
 
-                <Menu text="Simulation Controls">
+                <Menu text="Simulation Controls" style="-fx-background-color: #fb6666">
                     <items>
                         <MenuItem text="Start Simulation" onAction="#startSim"/>
                         <MenuItem text="Pause Simulation" onAction="#pauseSim"/>
@@ -25,7 +25,7 @@
                     </items>
                 </Menu>
 
-                <Menu text="Grid Controls">
+                <Menu text="Grid Controls" style="-fx-background-color: #1899da">
                     <items>
                         <MenuItem text="Small Grid (100x100)" fx:id="gridSmall" onAction="#handleGridResize"/>
                         <MenuItem text="Medium Grid (1000x1000)" fx:id="gridMedium" onAction="#handleGridResize"/>
@@ -33,20 +33,12 @@
                     </items>
                 </Menu>
 
-
-                <Menu text="Ant Controls">
+                <Menu text="Speed" style="-fx-background-color: #2ab52a">
                     <items>
-                        <MenuItem text="Add Ant + choose position" fx:id="antCenter"/>
-                        <MenuItem text="Random Ant Position" fx:id="antRandom"/>
-                        <SeparatorMenuItem/>
-                    </items>
-                </Menu>
-                <Menu text="Speed">
-                    <items>
-                        <MenuItem text="Slow(1x)" onAction="#speedSlow"/>
-                        <MenuItem text="Normal(2x)" onAction="#speedNormal"/>
-                        <MenuItem text="Fast(1)" onAction="#speedFast"/>
-                        <MenuItem text="Very Fast" onAction="#speedVeryFast"/>
+                        <MenuItem text="Slow(-1x)" onAction="#speedSlow"/>
+                        <MenuItem text="Normal(1x)" onAction="#speedNormal"/>
+                        <MenuItem text="Fast(5x)" onAction="#speedFast"/>
+                        <MenuItem text="Very Fast(100x)" onAction="#speedVeryFast"/>
                     </items>
                 </Menu>
                 <fx:define>
@@ -82,7 +74,7 @@
                 <Label fx:id="antCountLabel" text="0"/>
             </HBox>
             <AnchorPane fx:id="simulationContainer"
-                        VBox.vgrow="NEVER" />
+                        VBox.vgrow="ALWAYS" />
 
         </VBox>
 

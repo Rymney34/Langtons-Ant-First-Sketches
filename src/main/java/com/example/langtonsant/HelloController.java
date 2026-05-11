@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
 
+import static com.example.langtonsant.Ant.resetIdSeq;
+
 public class HelloController {
-    @FXML
-    private Label welcomeText;
     @FXML private ToggleGroup modeGroup;
     @FXML private RadioMenuItem seqId;
     @FXML private RadioMenuItem parallelId;
@@ -41,10 +41,8 @@ public class HelloController {
         double winWidth = 1080;
         double winHeight  = 720;
 
-//        grid = new sequentialGrid(width, heigh);
         grid = new sequentialGrid(width, heigh);
         parallelMode = false;
-//        ant = new Ant(width / 2, heigh / 2, Direction.NORTH);
         ants.add(new Ant(width / 2, heigh / 2, Direction.NORTH));
         ants.add(new Ant(25, 35, Direction.SOUTH));
         ants.add(new Ant(width / 3, heigh / 3, Direction.SOUTH));
@@ -171,9 +169,8 @@ private void moveAntsParllel() {
         double winWidth = simulationContainer.getWidth();
         double winHeight  = simulationContainer.getHeight();
         ants.clear();
-
+        resetIdSeq();
         if(parallelMode){
-            System.out.println("Gazpzpzzppzzozozo");
             grid = new parallelGrid(width, heigh);
 
         }else{
@@ -301,7 +298,6 @@ private void moveAntsParllel() {
 
         parallelMode = true;
 
-            System.out.println("Gazoz");
             ants.clear();
             ants.add(new Ant(width / 2, height / 2, Direction.NORTH));
             System.out.println("Parallel mode enabled");

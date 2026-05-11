@@ -1,5 +1,4 @@
 package com.example.langtonsant;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ public class perfomanceBenchmark {
     public static ForkJoinPool forkJoinPool = new ForkJoinPool();
     public static void main(String[] args){
        long totalStartTime = System.currentTimeMillis();
-
 
         List<Ant> warmUp = new ArrayList<>();
         System.out.println("Warming up Java Virt Machine!.");
@@ -28,7 +26,7 @@ public class perfomanceBenchmark {
         for(int size : gridSize){
             long gridStartTime = System.currentTimeMillis();
             System.out.println("\n--- Testing GridL " + size + "x" + size + "---");
-            System.out.println("Ants | Seq(ms) | Parallel (ms) | Efficiency | Speed-up ");
+            System.out.println("Ants | Seq(ms) | Parallel (ms) | Speed-up | Efficiency ");
 
             for(int numAnts : antCounts){
                 Grid seqGrid = new sequentialGrid(size, size);
@@ -55,7 +53,7 @@ public class perfomanceBenchmark {
                 double efficiency = speedUp / Runtime.getRuntime().availableProcessors();
 
                 System.out.printf("%4d | %13d | %13d | %8.2fx | %10.2f%%%n",
-                        numAnts, totalSeq, totalPar, efficiency * 100, speedUp );
+                        numAnts, totalSeq, totalPar, speedUp ,efficiency * 100 );
 
 
                 System.gc();

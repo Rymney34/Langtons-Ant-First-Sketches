@@ -13,19 +13,16 @@ public class parallelGrid implements Grid{
         this.width = width;
         this.height = height;
         this.blackCells = new ConcurrentHashMap<>();
-
     }
 
     @Override
     public  boolean isBlack(int x, int y){
         return blackCells.containsKey(new Cell(x,y));
-
     }
 
     @Override
     public void flipCell(int x, int y){
         Cell cell = new Cell(x,y);
-
         blackCells.compute(cell, (key, value) -> {
             if(value == null){
                 return true;

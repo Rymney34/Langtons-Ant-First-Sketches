@@ -23,24 +23,6 @@ public class Ant {
         idSeq = 1;
     }
 
-//    public void move(Grid grid){
-//        if(grid.isBlack(x,y)){
-//            System.out.println("Left");
-//            direction = direction.turnLeft();
-//
-//        }else {
-//            System.out.println("right");
-//            direction = direction.turnRight();
-//
-//        }
-//        grid.flipCell(x,y);
-//
-//        x += direction.dx;
-//        y += direction.dy;
-//
-//        x = (x + grid.getWidth()) % grid.getWidth();
-//        y = (y + grid.getHeight()) % grid.getHeight();
-//    }
     public void move(Grid grid){
         boolean wasBlack = grid.getAndFlip(x,y);
 
@@ -48,16 +30,13 @@ public class Ant {
         this.prevY = this.y;
 
         if(wasBlack){
-
 //            System.out.println("right");
             direction = direction.turnRight();
 
         }else {
 //            System.out.println("Left");
             direction = direction.turnLeft();
-
         }
-
 
         x += direction.dx;
         y += direction.dy;

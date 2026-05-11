@@ -6,7 +6,7 @@ import java.util.Set;
 public class sequentialGrid implements Grid{
     private int width;
     private int height;
-    private Set<Cell> blackCells = new HashSet<>();//hashset for parallel and sequential
+    private Set<Cell> blackCells = new HashSet<>();
 
     public sequentialGrid(int width, int height){
         this.width = width;
